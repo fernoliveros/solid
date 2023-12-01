@@ -27,8 +27,7 @@ function App() {
     }
   };
 
-  const toggleComplete = async (todo: TodoType) => {
-    todo.done = !todo.done;
+  const onUpdate = async (todo: TodoType) => {
     const updated = await updateTodo(todo);
     if (updated) {
       mutate((todos) => {
@@ -51,7 +50,7 @@ function App() {
             {(todo) => (
               <Todo
                 todo={todo}
-                toggleComplete={toggleComplete}
+                updateTodo={onUpdate}
                 onDelete={onDelete}
               ></Todo>
             )}

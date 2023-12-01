@@ -1,34 +1,63 @@
+import { createSignal } from "solid-js";
 import { TodoType } from "./model";
 
 type TodoProps = {
   todo: TodoType;
-  toggleComplete: (todo: TodoType) => void;
+  updateTodo: (todo: TodoType) => void;
   onDelete: (id: number) => void;
 };
 
 function Todo(props: TodoProps) {
   const todo = props.todo;
+  const [edit, setEdit] = createSignal(false);
+  const [newName, setNewName] = createSignal(todo.first_name);
+  const updateName = (e: SubmitEvent) => {
+    e.preventDefault();
+    props.updateTodo({ ...todo, ...{ first_name: newName() } });
+    setNewName("");
+  };
+  const toggleComplete = () => {
+    props.updateTodo({ ...todo, ...{ done: !todo.done } });
+  };
 
   return (
-    <div class="flex grow justify-between w-[24rem]">
-      <div>
+    <div class="flex grow justify-between w-[28rem]">
+      <div class="flex items-center">
         <input
           id={todo.student_id.toString()}
           checked={todo.done}
           type="checkbox"
           class={"mr-3 w-5 h-5 cursor-pointer"}
-          onChange={() => props.toggleComplete(todo)}
+          onChange={toggleComplete}
         />
-        <label class={`${todo.done ? "line-through" : ""} mr-10`}>
-          {todo.first_name}
-        </label>
+        {edit() ? (
+          <div>
+            <form onSubmit={updateName}>
+              <input
+                id={`${todo.student_id.toString()}-edit`}
+                type="text"
+                value={newName()}
+                onChange={(e) => setNewName(e.target.value)}
+              ></input>
+            </form>
+          </div>
+        ) : (
+          <label class={`${todo.done ? "line-through" : ""} mr-10`}>
+            {todo.first_name}
+          </label>
+        )}
       </div>
-      <button
-        class="cursor-pointer"
-        onClick={() => props.onDelete(todo.student_id)}
-      >
-        <i class="fas fa-trash text-2xl hover:text-cyan-100"></i>
-      </button>
+      <div>
+        <button class="cursor-pointer mr-4" onClick={() => setEdit(true)}>
+          <i class="fas fa-pencil text-2xl hover:text-cyan-100"></i>
+        </button>
+        <button
+          class="cursor-pointer"
+          onClick={() => props.onDelete(todo.student_id)}
+        >
+          <i class="fas fa-trash text-2xl hover:text-cyan-100"></i>
+        </button>
+      </div>
     </div>
   );
 }
