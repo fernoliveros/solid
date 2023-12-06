@@ -1,5 +1,5 @@
 export type TodoType = {
-  student_id: number;
+  pet_id: number;
   first_name: string;
   done: boolean;
 };

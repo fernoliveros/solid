@@ -1,12 +1,12 @@
-import { TodoType } from "../todos/model";
+import { TodoType } from "../components/todos/model";
+import { doGet, doPost } from "./http.service";
 
 const env = import.meta.env;
-const api = `http://${env.VITE_API_HOST}:${env.VITE_API_PORT}/students`;
+const api = `http://${env.VITE_API_HOST}:${env.VITE_API_PORT}/pets`;
 
-console.log("🚀 ~ file: todos-service.ts:6 ~ api:", api);
 export async function getTodos() {
   try {
-    const response = await fetch(api);
+    const response = await doGet(api);
     const data = await response.json();
     if (!response.ok) {
       throw new Error(data.detail);
@@ -19,11 +19,7 @@ export async function getTodos() {
 
 export async function addTodo(first_name: string) {
   try {
-    const response = await fetch(api, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ first_name }),
-    });
+    const response = await doPost(api, { first_name });
     const data = await response.json();
     if (!response.ok) {
       throw new Error(data.detail);

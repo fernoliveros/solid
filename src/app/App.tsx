@@ -1,64 +1,38 @@
-import { For, Show, createResource } from "solid-js";
 import "./App.css";
-import {
-  addTodo,
-  deleteTodo,
-  getTodos,
-  updateTodo,
-} from "../service/todos-service";
-import Todo from "../todos/Todo";
-import AddTodo from "../todos/AddTodo";
-import { TodoType } from "../todos/model";
+import { Route, Router, Routes } from "@solidjs/router";
+import { lazy } from "solid-js";
+import RouteGuard from "./components/auth/RouteGuard";
+import AlreadyLoggedIn from "./components/auth/AlreadyLoggedIn";
+import Header from "./components/nav/Header";
 
-function App() {
-  const [todos, { mutate }] = createResource(getTodos);
+const Login = lazy(() => import("./components/auth/Login"));
+const Logout = lazy(() => import("./components/auth/Logout"));
+const Signup = lazy(() => import("./components/auth/Signup"));
+const ForgotPassword = lazy(() => import("./components/auth/ForgotPassword"));
+const Todos = lazy(() => import("./components/todos/Todos"));
 
-  const onAddTodo = async (name: string) => {
-    const newTodo = await addTodo(name);
-    if (newTodo) mutate((todos) => [newTodo, ...todos]);
-  };
-
-  const onDelete = async (id: number) => {
-    const deleted = await deleteTodo(id);
-    if (deleted) {
-      mutate((todos) =>
-        todos.filter((todo: TodoType) => todo.student_id !== id)
-      );
-    }
-  };
-
-  const onUpdate = async (todo: TodoType) => {
-    const updated = await updateTodo(todo);
-    if (updated) {
-      mutate((todos) => {
-        const index = todos.findIndex(
-          (it: TodoType) => it.student_id === todo.student_id
-        );
-        const clone = [...todos];
-        clone[index] = { ...todo };
-        return clone;
-      });
-    }
-  };
+export default function App() {
   return (
-    <div class="text-3xl flex flex-col items-center gap-4">
-      <h1 class="text-7xl">Todos</h1>
-      <AddTodo onAddTodo={onAddTodo}></AddTodo>
-      <Show when={!todos.loading}>
-        <div>
-          <For each={todos()}>
-            {(todo) => (
-              <Todo
-                todo={todo}
-                updateTodo={onUpdate}
-                onDelete={onDelete}
-              ></Todo>
-            )}
-          </For>
-        </div>
-      </Show>
+    <div>
+      <Header />
+      <div class="p-8">
+        <Router>
+          <Routes>
+            <Route path="/login" component={Login} />
+            <Route path="/logout" component={Logout} />
+            <Route path="/signup" component={Signup} />
+            <Route path="/already-logged-in" component={AlreadyLoggedIn} />
+            <Route path="/forgot-password" component={ForgotPassword} />
+            <Route path="/" component={RouteGuard}>
+              <Route path="/" component={Todos} />
+            </Route>
+            <Route
+              path="*"
+              element={<h1 class="text-3xl">Where you going?</h1>}
+            />
+          </Routes>
+        </Router>
+      </div>
     </div>
   );
 }
-
-export default App;

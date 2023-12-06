@@ -4,7 +4,7 @@ type TodoProps = {
   onAddTodo: (name: string) => void;
 };
 
-function AddTodo(props: TodoProps) {
+export default function AddTodo(props: TodoProps) {
   const [name, setName] = createSignal("");
   return (
     <form
@@ -29,5 +29,3 @@ function AddTodo(props: TodoProps) {
     </form>
   );
 }
-
-export default AddTodo;

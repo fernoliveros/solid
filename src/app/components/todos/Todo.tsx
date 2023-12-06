@@ -7,7 +7,7 @@ type TodoProps = {
   onDelete: (id: number) => void;
 };
 
-function Todo(props: TodoProps) {
+export default function Todo(props: TodoProps) {
   const todo = props.todo;
   const [edit, setEdit] = createSignal(false);
   const [newName, setNewName] = createSignal(todo.first_name);
@@ -24,7 +24,7 @@ function Todo(props: TodoProps) {
     <div class="flex grow justify-between w-[28rem]">
       <div class="flex items-center">
         <input
-          id={todo.student_id.toString()}
+          id={todo.pet_id.toString()}
           checked={todo.done}
           type="checkbox"
           class={"mr-3 w-5 h-5 cursor-pointer"}
@@ -34,7 +34,7 @@ function Todo(props: TodoProps) {
           <div>
             <form onSubmit={updateName}>
               <input
-                id={`${todo.student_id.toString()}-edit`}
+                id={`${todo.pet_id.toString()}-edit`}
                 type="text"
                 value={newName()}
                 onChange={(e) => setNewName(e.target.value)}
@@ -53,7 +53,7 @@ function Todo(props: TodoProps) {
         </button>
         <button
           class="cursor-pointer"
-          onClick={() => props.onDelete(todo.student_id)}
+          onClick={() => props.onDelete(todo.pet_id)}
         >
           <i class="fas fa-trash text-2xl hover:text-cyan-100"></i>
         </button>
@@ -61,5 +61,3 @@ function Todo(props: TodoProps) {
     </div>
   );
 }
-
-export default Todo;
