@@ -1,8 +1,11 @@
 import { createSignal } from "solid-js";
 import { CreateUserForm } from "../components/auth/Signup";
 import { basePath } from "./http.service";
+import { jwtDecode } from "jwt-decode";
 
 export const [token, setToken] = createSignal<string | undefined>(getToken());
+const jwt = token();
+export const userMeta = jwt ? (jwtDecode(jwt) as any) : {};
 
 export async function login(userDetails: { email: string; password: string }) {
   try {

@@ -15,11 +15,21 @@ export function doGet(url: string) {
 }
 
 export function doPost(url: string, body: any) {
-  console.log("🚀 ~ file: http.service.ts:15 ~ doPost ~ doPost:", body);
-  const fetchOptions = {
+  return fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json", ...authHeader() },
     body: JSON.stringify(body),
-  };
-  return fetch(url, fetchOptions);
+  });
+}
+
+export function doUpdate(url: string, body: any) {
+  return fetch(url, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeader() },
+    body: JSON.stringify(body),
+  });
+}
+
+export function doDelete(url: string) {
+  return fetch(url, { method: "DELETE", ...authHeaders() });
 }

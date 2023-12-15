@@ -9,6 +9,7 @@ const Login = lazy(() => import("./components/auth/Login"));
 const Logout = lazy(() => import("./components/auth/Logout"));
 const Signup = lazy(() => import("./components/auth/Signup"));
 const ForgotPassword = lazy(() => import("./components/auth/ForgotPassword"));
+// const Todos = lazy(() => import("./components/pets/PetList"));
 const Todos = lazy(() => import("./components/todos/Todos"));
 
 export default function App() {

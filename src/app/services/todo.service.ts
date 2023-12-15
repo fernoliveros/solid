@@ -4,7 +4,7 @@ import { doDelete, doGet, doPost, doUpdate } from "./http.service";
 const env = import.meta.env;
 const api = `http://${env.VITE_API_HOST}:${env.VITE_API_PORT}/pets`;
 
-export async function getPets() {
+export async function getTodos() {
   try {
     const response = await doGet(api);
     const data = await response.json();

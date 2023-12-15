@@ -4,7 +4,7 @@ import {
   deleteTodo,
   getTodos,
   updateTodo,
-} from "../../services/pets.service";
+} from "../../services/todo.service";
 import Todo from "./Todo";
 import AddTodo from "./AddTodo";
 import { TodoType } from "./model";

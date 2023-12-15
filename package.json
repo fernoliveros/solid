@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@solidjs/router": "^0.9.1",
+    "jwt-decode": "^4.0.0",
     "solid-js": "^1.8.5"
   },
   "devDependencies": {
